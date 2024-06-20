@@ -13,7 +13,7 @@ namespace ShippingRatesAPI.Repositories.Implementations
         {
             _context = context;
         }
-        public async Task<List<CarrierDisableRequest>> GetAllDisableRequestsAsync() // Implement the method
+        public async Task<List<CarrierDisableRequest>> GetAllDisableRequestsAsync()
         {
             return await _context.CarrierDisableRequests.ToListAsync();
         }
