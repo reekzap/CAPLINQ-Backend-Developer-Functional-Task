@@ -64,7 +64,7 @@ namespace ShippingRatesAPI.Test.Controller
 
         }
 
-        [Fact]
+        /*[Fact]
         public async Task DisableCarrier_ReturnsBadRequest_WhenCannotDisableCarrier()
         {
             // Arrange
@@ -81,6 +81,63 @@ namespace ShippingRatesAPI.Test.Controller
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             var returnMessage = Assert.IsType<Dictionary<string, string>>(badRequestResult.Value);
             Assert.Equal(expectedMessage, returnMessage["message"]);
+        }*/
+
+        [Fact]
+        public async Task DisableCarrier_ReturnsOkResult_WhenSuccessful()
+        {
+            // Arrange
+            int carrierId = 1;
+            string reason = "Testing";
+            string expectedMessage = "Carrier disabled successfully.";
+
+            A.CallTo(() => _carrierRepository.DisableCarrierAsync(carrierId, reason)).Returns(Task.FromResult(expectedMessage));
+
+            // Act
+            var result = await _carrierController.DisableCarrier(carrierId, reason);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnMessage = okResult.Value.GetType().GetProperty("message").GetValue(okResult.Value, null);
+            Assert.Equal(expectedMessage, returnMessage);
+        }
+
+        [Fact]
+        public async Task DisableCarrier_ReturnsBadRequest_WhenCarrierNotFound()
+        {
+            // Arrange
+            int carrierId = 1;
+            string reason = "Testing";
+            string expectedMessage = "Carrier not found.";
+
+            A.CallTo(() => _carrierRepository.DisableCarrierAsync(carrierId, reason)).Throws(new InvalidOperationException(expectedMessage));
+
+            // Act
+            var result = await _carrierController.DisableCarrier(carrierId, reason);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnMessage = badRequestResult.Value.GetType().GetProperty("message").GetValue(badRequestResult.Value, null);
+            Assert.Equal(expectedMessage, returnMessage);
+        }
+
+        [Fact]
+        public async Task DisableCarrier_ReturnsBadRequest_WhenCannotDisableCarrier()
+        {
+            // Arrange
+            int carrierId = 1;
+            string reason = "Testing";
+            string expectedMessage = "Cannot disable a carrier for some reasons.";
+
+            A.CallTo(() => _carrierRepository.DisableCarrierAsync(carrierId, reason)).Throws(new InvalidOperationException(expectedMessage));
+
+            // Act
+            var result = await _carrierController.DisableCarrier(carrierId, reason);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnMessage = badRequestResult.Value.GetType().GetProperty("message").GetValue(badRequestResult.Value, null);
+            Assert.Equal(expectedMessage, returnMessage);
         }
     }
 }
