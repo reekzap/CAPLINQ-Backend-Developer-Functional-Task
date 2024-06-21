@@ -12,8 +12,32 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+
+// DBContext
+builder.Services.AddDbContext<DataContext>(opt =>
+    opt.UseInMemoryDatabase("CarrierAPIList"));
+
+// Add HTTP Client
+builder.Services.AddHttpClient<FedexShippingRateService>();
+builder.Services.AddHttpClient<DhlShippingRateService>();
+builder.Services.AddHttpClient<UpsShippingRateService>();
+
+// Initialize DI with scoped and transient services
+builder.Services.AddScoped<IShippingRateServiceFactory, ShippingRateServiceFactory>();
+builder.Services.AddTransient<ICarrierRepository, CarrierRepository>();
+builder.Services.AddTransient<ICarrierDisableRequestRepository, CarrierDisableRequestRepository>();
+builder.Services.AddTransient<IFedexAdapter, FedexAdapter>();
+builder.Services.AddTransient<IDhlAdapter, DhlAdapter>();
+builder.Services.AddTransient<IUpsAdapter, UpsAdapter>();
+
+// Register ShippingRateService instances with their respective implementations
+builder.Services.AddTransient<IShippingRateService, FedexShippingRateService>();
+builder.Services.AddTransient<IShippingRateService, DhlShippingRateService>();
+builder.Services.AddTransient<IShippingRateService, UpsShippingRateService>();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -33,27 +57,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-builder.Services.AddMemoryCache();
-// DBContext
-builder.Services.AddDbContext<DataContext>(opt =>
-    opt.UseInMemoryDatabase("CarrierAPIList"));
-
-builder.Services.AddTransient<ICarrierRepository, CarrierRepository>();
-builder.Services.AddTransient<ICarrierDisableRequestRepository, CarrierDisableRequestRepository>();
-
-builder.Services.AddHttpClient<FedexShippingRateService>();
-builder.Services.AddHttpClient<DhlShippingRateService>();
-builder.Services.AddHttpClient<UpsShippingRateService>();
-
-builder.Services.AddTransient<IFedexAdapter, FedexAdapter>();
-builder.Services.AddTransient<IDhlAdapter, DhlAdapter>();
-builder.Services.AddTransient<IUpsAdapter, UpsAdapter>();
-
-builder.Services.AddTransient<IShippingRateService, FedexShippingRateService>();
-builder.Services.AddTransient<IShippingRateService, DhlShippingRateService>();
-builder.Services.AddTransient<IShippingRateService, UpsShippingRateService>();
-
-builder.Services.AddSingleton<IShippingRateServiceFactory, ShippingRateServiceFactory>();
 
 var app = builder.Build();
 
