@@ -7,8 +7,8 @@
         public string ApiEndpoint { get; set; } = string.Empty;
         public string ApiKey { get; set; } = string.Empty;
         public bool IsEnabled { get; private set; } = true;
-        public bool hasOngoingShipments { get; set; } = false;
-        public bool hasPendingInvoices { get; set; } = false;
+        public bool HasOngoingShipments { get; set; } = false;
+        public bool HasPendingInvoices { get; set; } = false;
 
         public void EnableCarrier()
         {

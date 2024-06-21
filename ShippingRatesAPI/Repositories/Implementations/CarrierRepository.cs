@@ -48,8 +48,8 @@ namespace ShippingRatesAPI.Repositories.Implementations
             }
 
             var isOnlyActiveCarrier = _context.Carriers.Count(c => c.IsEnabled) == 1;
-            bool hasPendingInvoices = carrier.hasPendingInvoices;
-            bool hasOngoingShipments = carrier.hasOngoingShipments;
+            bool hasPendingInvoices = carrier.HasPendingInvoices;
+            bool hasOngoingShipments = carrier.HasOngoingShipments;
             var isAdmin = false; // Add logic to check for user auth
             string carrierName = carrier.Name;
 

@@ -15,9 +15,9 @@ namespace ShippingRatesAPI.Data
                 if (!context.Carriers.Any())
                 {
                     context.Carriers.AddRange(
-                        new Carrier { Id = 1, Name = "FedEx", ApiEndpoint = "https://localhost:7224/", ApiKey = "FedExApiKey" },
-                        new Carrier { Id = 2, Name = "DHL", ApiEndpoint = "https://localhost:7224/", ApiKey = "DHLApiKey" },
-                        new Carrier { Id = 3, Name = "UPS", ApiEndpoint = "https://localhost:7224/", ApiKey = "UPSApiKey" }
+                        new Carrier { Id = 1, Name = "FedEx", ApiEndpoint = "https://localhost:7013/", ApiKey = "FedExApiKey" },
+                        new Carrier { Id = 2, Name = "DHL", ApiEndpoint = "https://localhost:7013/", ApiKey = "DHLApiKey" },
+                        new Carrier { Id = 3, Name = "UPS", ApiEndpoint = "https://localhost:7013/", ApiKey = "UPSApiKey" }
                     );
                     context.SaveChanges();
                 }

@@ -36,7 +36,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddMemoryCache();
 // DBContext
 builder.Services.AddDbContext<DataContext>(opt =>
-    opt.UseInMemoryDatabase("CarrierList"));
+    opt.UseInMemoryDatabase("CarrierAPIList"));
+
 builder.Services.AddTransient<ICarrierRepository, CarrierRepository>();
 builder.Services.AddTransient<ICarrierDisableRequestRepository, CarrierDisableRequestRepository>();
 
