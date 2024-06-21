@@ -64,25 +64,6 @@ namespace ShippingRatesAPI.Test.Controller
 
         }
 
-        /*[Fact]
-        public async Task DisableCarrier_ReturnsBadRequest_WhenCannotDisableCarrier()
-        {
-            // Arrange
-            int carrierId = 1;
-            string reason = "";
-            string expectedMessage = "Cannot disable a carrier for some reasons.";
-
-            A.CallTo(() => _carrierRepository.DisableCarrierAsync(carrierId, reason)).Throws(new InvalidOperationException(expectedMessage));
-
-            // Act
-            var result = await _carrierController.DisableCarrier(carrierId, reason);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            var returnMessage = Assert.IsType<Dictionary<string, string>>(badRequestResult.Value);
-            Assert.Equal(expectedMessage, returnMessage["message"]);
-        }*/
-
         [Fact]
         public async Task DisableCarrier_ReturnsOkResult_WhenSuccessful()
         {
